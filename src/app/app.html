@@ -4,16 +4,28 @@
   <input
     [(ngModel)]="newTodo"
     name="newTodo"
-  placeholder="Add what you want to do..."
+    placeholder="Add what you want to do..."
     autocomplete="off"
   />  <!--bat buoc khi dung ngModel-->
   <button type="submit">Add</button>
 </form>
 
 
-<!--danh sach todo-->
+<!--danh sach-->
 <ul>
-  @for (t of todos; track t) {
-    <li>{{ t }}</li>
+  @for (t of todos; track t.id) {
+    <li>
+      <label>
+        <input type="checkbox" [checked]="t.completed" (change)="toggle(t)"/>
+        <span
+          [style.text-decoration]="t.completed ? 'line-through':'none'">
+          {{ t.title }}
+        </span>
+      </label>
+      <button (click)="remove(t)">✕</button>
+    </li>
   }
 </ul>
+@if (todos.length == 0) {
+  <p>Nothing to do.</p>
+}

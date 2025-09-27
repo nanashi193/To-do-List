@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+
+type Todo = { id: string; title: string; completed: boolean };
 
 @Component({
   selector: 'app-root',
@@ -11,15 +12,26 @@ import {FormsModule} from '@angular/forms';
 
 
 export class App {
-  title = 'angular-todo';
-  todos = ["hoc Angular", "lam To-do List project", "Ngu?"];
   newTodo = ''; //bien cho input
 
-  add(){
+  todos: Todo[] = [
+    {id: crypto.randomUUID(), title: 'Learn Angular', completed: true},
+    {id: crypto.randomUUID(), title: 'Do Todo-List', completed: false},
+    {id: crypto.randomUUID(), title: 'Sleep', completed: true},
+  ];
+
+  add() {
     const t = this.newTodo.trim();
-    if(!t) return;  //chan input rong
-    this.todos.unshift(t); //them vao dau danh sach
+    if (!t) return;  //chan input rong
+    this.todos.unshift({id: crypto.randomUUID(), title: t, completed: false});
     this.newTodo = '';
   }
 
+  toggle(todo: Todo) {
+    todo.completed = !todo.completed;
+  }
+
+  remove(todo: Todo) {
+    this.todos = this.todos.filter(x => x.id !== todo.id);
+  }
 }
