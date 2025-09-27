@@ -1,5 +1,6 @@
 <h1> My To-do List</h1>
 
+<!--form them todo-->
 <form (ngSubmit)="add()">
   <input
     [(ngModel)]="newTodo"
@@ -13,19 +14,33 @@
 
 <!--danh sach-->
 <ul>
-  @for (t of todos; track t.id) {
+  @for (t of ListTodos; track t.id) {
     <li>
       <label>
         <input type="checkbox" [checked]="t.completed" (change)="toggle(t)"/>
-        <span
-          [style.text-decoration]="t.completed ? 'line-through':'none'">
+
+        @if (editingId !== t.id) {
+          <span
+            (dblclick)="starEdit(t)"
+            [style.text-decoration]="t.completed ? 'line-through':'none'">
           {{ t.title }}
         </span>
+        } @else {
+          <input [(ngModel)]="editingText"
+                 name="edit_{{t.id}}"
+                 (keyup.enter)="confirmEdit(t)"
+                 (blur)="confirmEdit(t);cancelEdit()"
+                 (keyup.escape)="cancelEdit()"
+                 autofocus
+                 style="width: 70%">
+        }
       </label>
       <button (click)="remove(t)">✕</button>
     </li>
   }
 </ul>
-@if (todos.length == 0) {
+
+<!--neu danh sach rong-->
+@if (ListTodos.length == 0) {
   <p>Nothing to do.</p>
 }

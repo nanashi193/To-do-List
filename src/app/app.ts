@@ -14,7 +14,7 @@ type Todo = { id: string; title: string; completed: boolean };
 export class App {
   newTodo = ''; //bien cho input
 
-  todos: Todo[] = [
+  ListTodos: Todo[] = [
     {id: crypto.randomUUID(), title: 'Learn Angular', completed: true},
     {id: crypto.randomUUID(), title: 'Do Todo-List', completed: false},
     {id: crypto.randomUUID(), title: 'Sleep', completed: true},
@@ -23,7 +23,7 @@ export class App {
   add() {
     const t = this.newTodo.trim();
     if (!t) return;  //chan input rong
-    this.todos.unshift({id: crypto.randomUUID(), title: t, completed: false});
+    this.ListTodos.unshift({id: crypto.randomUUID(), title: t, completed: false});
     this.newTodo = '';
   }
 
@@ -32,6 +32,28 @@ export class App {
   }
 
   remove(todo: Todo) {
-    this.todos = this.todos.filter(x => x.id !== todo.id);
+    this.ListTodos = this.ListTodos.filter(x => x.id !== todo.id);
+  }
+
+  //state cho che do edit
+  editingId: string | null = null;
+  editingText: string = '';
+
+  //bat dau edit
+  starEdit(todo: Todo) {
+    this.editingId = todo.id;
+    this.editingText = todo.title;
+  }
+
+  confirmEdit(todo: Todo) {
+    const t = this.editingText.trim();
+    if (t) todo.title = t;
+    this.editingId = null;
+    this.editingText = '';
+  }
+
+  cancelEdit() {
+    this.editingId = null;
+    this.editingText = '';
   }
 }
