@@ -56,4 +56,22 @@ export class App {
     this.editingId = null;
     this.editingText = '';
   }
+
+  //filter
+  filter: 'all' | 'active' | 'completed' = 'all';
+
+  setFilter(f: 'all' | 'active' | 'completed') {
+    this.filter = f;
+  }
+
+  get filteredTodos() {
+    switch (this.filter) {
+      case 'active':
+        return this.ListTodos.filter(t => !t.completed);
+      case 'completed':
+        return this.ListTodos.filter(t => t.completed);
+      default:
+        return this.ListTodos;
+    }
+  }
 }
