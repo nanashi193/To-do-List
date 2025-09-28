@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {Todo} from './models/todo';
 
-type Todo = { id: string; title: string; completed: boolean };
 const STORAGE_KEY='angular-todo';
 
 @Component({
