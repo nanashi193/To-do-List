@@ -1,44 +1,43 @@
 <h1> My To-do List</h1>
-
 <!--form them todo-->
-<form (ngSubmit)="add()">
-  <input
-    [(ngModel)]="newTodo"
-    name="newTodo"
-    placeholder="Add what you want to do..."
-    autocomplete="off"
-  />  <!--bat buoc khi dung ngModel-->
-  <button type="submit">Add</button>
-</form>
+<div class="pattern-bg">
+  <form (ngSubmit)="add()">
+    <input
+      [(ngModel)]="newTodo"
+      name="newTodo"
+      placeholder="Add what you want to do..."
+      autocomplete="off"
+    />  <!--bat buoc khi dung ngModel-->
+    <button type="submit">Add</button>
+  </form>
+  <!--danh sach-->
+  <ul>
+    @for (t of ListTodos; track t.id) {
+      <li>
+        <label>
+          <input type="checkbox" [checked]="t.completed" (change)="toggle(t)"/>
 
-
-<!--danh sach-->
-<ul>
-  @for (t of ListTodos; track t.id) {
-    <li>
-      <label>
-        <input type="checkbox" [checked]="t.completed" (change)="toggle(t)"/>
-
-        @if (editingId !== t.id) {
-          <span
-            (dblclick)="starEdit(t)"
-            [style.text-decoration]="t.completed ? 'line-through':'none'">
+          @if (editingId !== t.id) {
+            <span
+              (dblclick)="starEdit(t)"
+              [style.text-decoration]="t.completed ? 'line-through':'none'">
           {{ t.title }}
         </span>
-        } @else {
-          <input [(ngModel)]="editingText"
-                 name="edit_{{t.id}}"
-                 (keyup.enter)="confirmEdit(t)"
-                 (blur)="confirmEdit(t);cancelEdit()"
-                 (keyup.escape)="cancelEdit()"
-                 autofocus
-                 style="width: 70%">
-        }
-      </label>
-      <button (click)="remove(t)">✕</button>
-    </li>
-  }
-</ul>
+          } @else {
+            <input [(ngModel)]="editingText"
+                   name="edit_{{t.id}}"
+                   (keyup.enter)="confirmEdit(t)"
+                   (blur)="confirmEdit(t);cancelEdit()"
+                   (keyup.escape)="cancelEdit()"
+                   autofocus
+                   style="width: 70%">
+          }
+        </label>
+        <button (click)="remove(t)">✕</button>
+      </li>
+    }
+  </ul>
+</div>
 
 <!--neu danh sach rong-->
 @if (ListTodos.length == 0) {
